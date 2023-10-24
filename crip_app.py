@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QMainWindow
 from main_menu import MainMenu
 from criptografar_screen import CriptografarScreen
 from descriptografar_screen import DescriptografarScreen
+from apagar_screen import ApagarScreen
 
 
 class CripApp(QMainWindow):
@@ -32,3 +33,8 @@ class CripApp(QMainWindow):
         self.mainMenu = MainMenu(self)
         self.setCentralWidget(self.mainMenu)
         self.setWindowTitle("Menu Principal")
+
+    def showApagarScreen(self):
+        self.apagarScreen = ApagarScreen(self)
+        self.setCentralWidget(self.apagarScreen)
+        self.setWindowTitle("Apagar Arquivo")

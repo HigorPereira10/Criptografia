@@ -34,6 +34,11 @@ class MainMenu(QWidget):
         descButton.setFixedHeight(40)
         layout.addWidget(descButton)
 
+        apagarButton = QPushButton("Apagar Arquivo")
+        apagarButton.clicked.connect(self.parent.showApagarScreen)
+        apagarButton.setFixedHeight(40)
+        layout.addWidget(apagarButton)
+
         sairButton = QPushButton("Sair")
         sairButton.clicked.connect(self.parent.close)
         sairButton.setFixedHeight(40)
