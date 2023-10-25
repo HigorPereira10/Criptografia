@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QFileDialog,
 )
 from PySide6.QtGui import QPalette, QColor
+from PySide6.QtCore import Qt
 import base64
 
 
@@ -15,8 +16,10 @@ class CriptografarScreen(QWidget):
         super().__init__()
         self.parent = parent
         self.pastaPath = ""
+        self.setMouseTracking(True)
         self.inicializadorUi()
 
+    # Inicializador desta interface
     def inicializadorUi(self):
         layout = QVBoxLayout()
 
@@ -34,6 +37,12 @@ class CriptografarScreen(QWidget):
 
         self.textoEdit = QTextEdit()
         layout.addWidget(self.textoEdit)
+
+        self.label2 = QLabel("")
+        self.label2.setTextInteractionFlags(
+            Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard
+        )
+        layout.addWidget(self.label2)
 
         openDirButton = QPushButton("Selecionar Diretório")
         openDirButton.setFixedHeight(35)
@@ -62,6 +71,7 @@ class CriptografarScreen(QWidget):
 
         print(self.pastaPath)
 
+    # Metodo de condição, codificação e criptografia
     def criptografar(self):
         texto = self.textoEdit.toPlainText()
         if not texto.strip():
@@ -75,16 +85,38 @@ class CriptografarScreen(QWidget):
             self.erroLabel.setPalette(palette)
             self.erroLabel.setText("Escolha a pasta para salvar o arquivo!")
         else:
-            texto_codificado = base64.b64encode(texto.encode("ASCII"))
-            codificado_ascii = texto_codificado.decode("ASCII")
+            texto_codificado = base64.b64encode(texto.encode("utf-8"))
+            self.chave = texto_codificado.decode("utf-8")
 
             self.erroLabel.setText("")
 
+            texto_crip = CriptografarScreen.cifra_de_vigenere(texto, self.chave)
+
+            self.label2.setText(f"Sua chave de criptografia é: {self.chave}")
+
             arquivo = open(f"{self.pastaPath}/codificado.txt", "w")
-            arquivo.write(codificado_ascii)
+            arquivo.write(texto_crip)
             arquivo.close()
 
             palette = QPalette()
             palette.setColor(QPalette.WindowText, QColor("green"))
             self.erroLabel.setPalette(palette)
             self.erroLabel.setText("As informações foram criptografadas!")
+
+    # Metodo de criptografia
+    def cifra_de_vigenere(texto, chave):
+        resultado = []
+
+        for i in range(len(texto)):
+            if texto[i].isalpha():
+                texto_offset = ord("a") if texto[i].islower() else ord("A")
+                chave_offset = ord("a") if chave[i % len(chave)].islower() else ord("A")
+
+                deslocamento = (
+                    ord(texto[i]) - texto_offset + ord(chave[i % len(chave)]) - chave_offset
+                ) % 26
+                resultado.append(chr(deslocamento + texto_offset))
+            else:
+                resultado.append(texto[i])
+
+        return "".join(resultado)

@@ -28,6 +28,12 @@ class DescriptografarScreen(QWidget):
         label = QLabel("Escolha o arquivo para ser descriptografado:")
         layout.addWidget(label)
 
+        label = QLabel("Insira a chave de criptografia:")
+        layout.addWidget(label)
+
+        self.chaveEdit = QTextEdit()
+        layout.addWidget(self.chaveEdit)
+
         label2 = QLabel("Esta é a mensagem criptografada: ")
         layout.addWidget(label2)
 
@@ -84,14 +90,18 @@ class DescriptografarScreen(QWidget):
             arquivo = open(self.arquivoPath[0], "r")
             texto_codificado = arquivo.readline()
             self.errolabel.setText("")
+            #print(self.parent.chave)
             try:
-                decodificado = base64.b64decode(texto_codificado.encode("ASCII"))
-                decodificado_ascii = decodificado.decode("ASCII")
-                # arquivo.close()
-                # arquivo = open(self.arquivoPath[0], "w")
-                # arquivo.write(decodificado_ascii)
+                #decodificado = base64.b64decode(texto_codificado.encode("ASCII"))
+                #decodificado_ascii = decodificado.decode("ASCII")
 
-                self.textoDescLabel.setText(decodificado_ascii)
+                chave = self.chaveEdit.toPlainText()
+
+                texto_desc = DescriptografarScreen.decifra_vigenere(
+                    texto_codificado, chave
+                )
+
+                self.textoDescLabel.setText(texto_desc)
 
                 palette = QPalette()
                 palette.setColor(QPalette.WindowText, QColor("green"))
@@ -104,3 +114,20 @@ class DescriptografarScreen(QWidget):
                 self.errolabel.setText(
                     "As informações deste arquivo, já estão descriptografadas!"
                 )
+
+    def decifra_vigenere(texto, chave):
+        resultado = []
+
+        for i in range(len(texto)):
+            if texto[i].isalpha():
+                texto_offset = ord("a") if texto[i].islower() else ord("A")
+                chave_offset = ord("a") if chave[i % len(chave)].islower() else ord("A")
+
+                deslocamento = (
+                    ord(texto[i]) - texto_offset - (ord(chave[i % len(chave)]) - chave_offset)
+                ) % 26
+                resultado.append(chr(deslocamento + texto_offset))
+            else:
+                resultado.append(texto[i])
+
+        return "".join(resultado)
