@@ -39,9 +39,11 @@ class CriptografarScreen(QWidget):
         layout.addWidget(self.textoEdit)
 
         self.label2 = QLabel("")
+        # Deixa o texto clicavel
         self.label2.setTextInteractionFlags(
             Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard
         )
+        self.label2.setStyleSheet("font-size: 14px;")
         layout.addWidget(self.label2)
 
         openDirButton = QPushButton("Selecionar Diretório")
@@ -68,8 +70,6 @@ class CriptografarScreen(QWidget):
         self.pastaPath = QFileDialog.getExistingDirectory(
             self, "Selecionar Diretório", "", options=options
         )
-
-        print(self.pastaPath)
 
     # Metodo de condição, codificação e criptografia
     def criptografar(self):
@@ -113,7 +113,10 @@ class CriptografarScreen(QWidget):
                 chave_offset = ord("a") if chave[i % len(chave)].islower() else ord("A")
 
                 deslocamento = (
-                    ord(texto[i]) - texto_offset + ord(chave[i % len(chave)]) - chave_offset
+                    ord(texto[i])
+                    - texto_offset
+                    + ord(chave[i % len(chave)])
+                    - chave_offset
                 ) % 26
                 resultado.append(chr(deslocamento + texto_offset))
             else:
