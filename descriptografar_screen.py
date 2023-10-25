@@ -24,29 +24,26 @@ class DescriptografarScreen(QWidget):
             font-size: 14px; 
             font-weight: bold; 
             """
-
-        label = QLabel("Escolha o arquivo para ser descriptografado:")
-        layout.addWidget(label)
-
+            
         label = QLabel("Insira a chave de criptografia:")
         layout.addWidget(label)
 
         self.chaveEdit = QTextEdit()
         layout.addWidget(self.chaveEdit)
-
-        label2 = QLabel("Esta é a mensagem criptografada: ")
-        layout.addWidget(label2)
-
-        self.textoDescLabel = QLabel("")
-        layout.addWidget(self.textoDescLabel)
-
-        self.arquivoSelectLabel = QLabel("")
-        layout.addWidget(self.arquivoSelectLabel)
-
+        
         self.errolabel = QLabel("")
         self.errolabel.setStyleSheet(style)
         layout.addWidget(self.errolabel)
 
+        self.textoDescLabel = QLabel("")
+        layout.addWidget(self.textoDescLabel)
+        
+        self.arquivoSelectLabel = QLabel("")
+        layout.addWidget(self.arquivoSelectLabel)
+        
+        label = QLabel("Escolha o arquivo para ser descriptografado:")
+        layout.addWidget(label)
+        
         openDirButton = QPushButton("Escolher Arquivo")
         openDirButton.setFixedHeight(40)
         openDirButton.clicked.connect(self.openDiretorio)
@@ -80,7 +77,6 @@ class DescriptografarScreen(QWidget):
             self.arquivoSelectLabel.setText("Nenhum arquivo selecionado")
 
     def descriptografar(self):
-        # self.path = self.arquivoPath[0]
         if not self.arquivoPath or not self.arquivoPath[0].strip():
             palette = QPalette()
             palette.setColor(QPalette.WindowText, QColor("red"))
@@ -90,18 +86,14 @@ class DescriptografarScreen(QWidget):
             arquivo = open(self.arquivoPath[0], "r")
             texto_codificado = arquivo.readline()
             self.errolabel.setText("")
-            #print(self.parent.chave)
             try:
-                #decodificado = base64.b64decode(texto_codificado.encode("ASCII"))
-                #decodificado_ascii = decodificado.decode("ASCII")
-
                 chave = self.chaveEdit.toPlainText()
 
                 texto_desc = DescriptografarScreen.decifra_vigenere(
                     texto_codificado, chave
                 )
 
-                self.textoDescLabel.setText(texto_desc)
+                self.textoDescLabel.setText(f'Esta é a mensagem criptografada: {texto_desc}')
 
                 palette = QPalette()
                 palette.setColor(QPalette.WindowText, QColor("green"))
