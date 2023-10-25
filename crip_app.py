@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QStatusBar
 from main_menu import MainMenu
 from criptografar_screen import CriptografarScreen
 from descriptografar_screen import DescriptografarScreen

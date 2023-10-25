@@ -7,7 +7,6 @@ from PySide6.QtWidgets import (
     QFileDialog,
 )
 from PySide6.QtGui import QPalette, QColor
-import base64
 
 
 class DescriptografarScreen(QWidget):
@@ -24,26 +23,26 @@ class DescriptografarScreen(QWidget):
             font-size: 14px; 
             font-weight: bold; 
             """
-            
+
         label = QLabel("Insira a chave de criptografia:")
         layout.addWidget(label)
 
         self.chaveEdit = QTextEdit()
         layout.addWidget(self.chaveEdit)
-        
+
         self.errolabel = QLabel("")
         self.errolabel.setStyleSheet(style)
         layout.addWidget(self.errolabel)
 
         self.textoDescLabel = QLabel("")
         layout.addWidget(self.textoDescLabel)
-        
+
         self.arquivoSelectLabel = QLabel("")
         layout.addWidget(self.arquivoSelectLabel)
-        
+
         label = QLabel("Escolha o arquivo para ser descriptografado:")
         layout.addWidget(label)
-        
+
         openDirButton = QPushButton("Escolher Arquivo")
         openDirButton.setFixedHeight(40)
         openDirButton.clicked.connect(self.openDiretorio)
@@ -93,7 +92,9 @@ class DescriptografarScreen(QWidget):
                     texto_codificado, chave
                 )
 
-                self.textoDescLabel.setText(f'Esta é a mensagem criptografada: {texto_desc}')
+                self.textoDescLabel.setText(
+                    f"Esta é a mensagem criptografada: {texto_desc}"
+                )
 
                 palette = QPalette()
                 palette.setColor(QPalette.WindowText, QColor("green"))
@@ -116,7 +117,9 @@ class DescriptografarScreen(QWidget):
                 chave_offset = ord("a") if chave[i % len(chave)].islower() else ord("A")
 
                 deslocamento = (
-                    ord(texto[i]) - texto_offset - (ord(chave[i % len(chave)]) - chave_offset)
+                    ord(texto[i])
+                    - texto_offset
+                    - (ord(chave[i % len(chave)]) - chave_offset)
                 ) % 26
                 resultado.append(chr(deslocamento + texto_offset))
             else:
