@@ -27,6 +27,9 @@ class ApagarScreen(QWidget):
             font-weight: bold; 
             """
 
+        label = QLabel("Escolha o arquivo para ser apagado:")
+        layout.addWidget(label)
+
         self.arquivoSelectLabel = QLabel("")
         layout.addWidget(self.arquivoSelectLabel)
 
@@ -73,9 +76,15 @@ class ApagarScreen(QWidget):
             self.errolabel.setPalette(palette)
             self.errolabel.setText("Escolha um arquivo para ser apagado!")
         else:
-            os.remove(self.arquivoPath[0])
+            try:
+                os.remove(self.arquivoPath[0])
 
-            palette = QPalette()
-            palette.setColor(QPalette.WindowText, QColor("green"))
-            self.errolabel.setPalette(palette)
-            self.errolabel.setText("O arquivo foi apagado!")
+                palette = QPalette()
+                palette.setColor(QPalette.WindowText, QColor("green"))
+                self.errolabel.setPalette(palette)
+                self.errolabel.setText("O arquivo foi apagado!")
+            except:
+                palette = QPalette()
+                palette.setColor(QPalette.WindowText, QColor("red"))
+                self.errolabel.setPalette(palette)
+                self.errolabel.setText("Este arquivo já foi apagado!")
