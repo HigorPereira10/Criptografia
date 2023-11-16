@@ -108,19 +108,28 @@ class DescriptografarScreen(QWidget):
                     "As informações deste arquivo, já estão descriptografadas!"
                 )
 
+    # Metodo de criptografia
     def decifra_vigenere(texto, chave):
         resultado = []
 
+        # Pega cada caractere do texto criptogafado
         for i in range(len(texto)):
+            # Verifica se o caractere é uma letra
             if texto[i].isalpha():
+                # Verifica se o caractere do texto é maiusculo ou minusculo e retorna o numero unicode
                 texto_offset = ord("a") if texto[i].islower() else ord("A")
+                # Verifica se o caractere da chave é maiusculo ou minusculo e retorna o numero unicode
                 chave_offset = ord("a") if chave[i % len(chave)].islower() else ord("A")
 
+                # Calcula a quantidade de deslocamento
                 deslocamento = (
+                    # Pega o numero unicode do carectere
                     ord(texto[i])
                     - texto_offset
+                    # Pega o numero unicode da chave
                     - (ord(chave[i % len(chave)]) - chave_offset)
                 ) % 26
+                # Ele soma o codigo unicode do caractere digitado e do deslocamento, depois converte em letra
                 resultado.append(chr(deslocamento + texto_offset))
             else:
                 resultado.append(texto[i])
