@@ -1,4 +1,4 @@
-# **Projeto de Criptografia e Descriptografia - Cifra de Vigenère**
+## **Projeto de Criptografia e Descriptografia - Cifra de Vigenère**
 
 Bem-vindo ao repositório do meu projeto de criptografia e descriptografia desenvolvido durante o meu primeiro semestre em Ciência da Computação na Universidade Paulista. 
 Este projeto utiliza a cifra de Vigenère para criptografar e descriptografar mensagens.
