@@ -3,6 +3,7 @@
 
 import QtQuick
 import QtQuick.VirtualKeyboard
+import QtQuick.VirtualKeyboard.Settings
 
 /*!
     \qmltype ChangeLanguageKey
@@ -40,12 +41,13 @@ BaseKey {
     property bool customLayoutsOnly: false
 
     id: changeLanguageKey
-    keyType: QtVirtualKeyboard.ChangeLanguageKey
+    keyType: QtVirtualKeyboard.KeyType.ChangeLanguageKey
     objectName: "changeLanguageKey"
     functionKey: true
     highlighted: true
     displayText: keyboard.locale.split("_")[0]
     keyPanelDelegate: keyboard.style ? keyboard.style.languageKeyPanel : undefined
-    onClicked: keyboard.doKeyboardFunction(QtVirtualKeyboard.ChangeLanguage, customLayoutsOnly)
-    enabled: keyboard.isKeyboardFunctionAvailable(QtVirtualKeyboard.ChangeLanguage, customLayoutsOnly)
+    onClicked: keyboard.doKeyboardFunction(QtVirtualKeyboard.KeyboardFunction.ChangeLanguage, customLayoutsOnly)
+    enabled: keyboard.isKeyboardFunctionAvailable(QtVirtualKeyboard.KeyboardFunction.ChangeLanguage, customLayoutsOnly)
+    visible: VirtualKeyboardSettings.visibleFunctionKeys & QtVirtualKeyboard.KeyboardFunctionKeys.Language
 }
